@@ -152,17 +152,20 @@ namespace UnityEngine.Perception.GroundTruth
                     var objectInfo = renderedObjectInfos[i];
                     if (!asyncData.labelEntryMatchCache.TryGetLabelEntryFromInstanceId(objectInfo.instanceId, out var labelEntry, out _))
                         continue;
-
-                    m_BoundingBoxValues.Add(new BoundingBoxValue
+                        
+                    if(objectInfo.pixelCount > 285)
                     {
-                        label_id = labelEntry.id,
-                        label_name = labelEntry.label,
-                        instance_id = objectInfo.instanceId,
-                        x = objectInfo.boundingBox.x,
-                        y = objectInfo.boundingBox.y,
-                        width = objectInfo.boundingBox.width,
-                        height = objectInfo.boundingBox.height,
-                    });
+                        m_BoundingBoxValues.Add(new BoundingBoxValue
+                        {
+                            label_id = labelEntry.id,
+                            label_name = labelEntry.label,
+                            instance_id = objectInfo.instanceId,
+                            x = objectInfo.boundingBox.x,
+                            y = objectInfo.boundingBox.y,
+                            width = objectInfo.boundingBox.width,
+                            height = objectInfo.boundingBox.height,
+                        });
+                    }
                 }
 
                 if (!CaptureOptions.useAsyncReadbackIfSupported && frameCount != Time.frameCount)
